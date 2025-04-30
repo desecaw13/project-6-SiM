@@ -9,7 +9,6 @@ import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -17,36 +16,23 @@ public class DictionaryController {
 
     private static final Logger logger = LoggerFactory.getLogger(DictionaryController.class.getName());
 
-    // Placeholder for the actual implementation
-    // This class will handle HTTP requests related to dictionary operations
-    // and interact with the DictionaryService to fetch word definitions.
-
-    // Example method signatures:
-    // public Entry getWord(@PathVariable String word) throws WordNotFoundException;
-    // public List<Entry> getWordsStartingWith(@PathVariable String value);
-
     private final DictionaryService dictionaryService;
 
     public DictionaryController(DictionaryService dictionaryService) {
         this.dictionaryService = dictionaryService;
     }
 
-    // Example method to get a word definition
     @GetMapping("/getWord/{word}")
     public Entry getWord(@PathVariable String word) throws WordNotFoundException {
-
         StopWatch sw = new StopWatch();
         sw.start();
-        Entry entry = this.dictionaryService.getWord(word);
+
+        Entry entry = dictionaryService.getWord(word);
+
         sw.stop();
-        long nanoSeconds = sw.getLastTaskTimeNanos();
-        String message = new StringBuilder().append("Retrieved entry for [")
-                                            .append(word)
-                                            .append("] in ")
-                                            .append(nanoSeconds / 1000000.0)
-                                            .append("ms")
-                                            .toString();
-        // Log the message
+        long totalTime = sw.getTotalTimeNanos();
+        String message = new StringBuilder().append("Word ").append(word).append(" has been found in ").append(totalTime / 1000000.0).append(" ms").toString();
+
         logger.info(message);
 
         return entry;
@@ -115,5 +101,4 @@ public class DictionaryController {
 
         return entries;
     }
-
 }

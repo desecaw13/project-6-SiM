@@ -21,46 +21,34 @@ public class DictionaryReference {
     private static Map<String, String> dictionary;
 
     static {
-
         try {
             readDictionaryFile();
         } catch (JsonProcessingException e) {
-            System.err.println("There was a problem reading the dictionary file");
+            System.err.println("Error reading dictionary file");
         }
-
     }
 
     private DictionaryReference() {
-
     }
 
     private static void readDictionaryFile() throws JsonProcessingException {
-
         StopWatch sw = new StopWatch();
         sw.start();
 
-        //InputStream inputStream = ClassLoader.getSystemResourceAsStream("dictionary.json");
         InputStream inputStream = DictionaryReference.class.getClassLoader().getResourceAsStream("dictionary.json");
+        assert inputStream != null;
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        String json = bufferedReader.lines()
-                                    .collect(Collectors.joining("\n"));
+        String json = bufferedReader.lines().collect(Collectors.joining("\n"));
 
-        ObjectMapper mapper = new ObjectMapper();
-        dictionary = mapper.readValue(json, Map.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        dictionary = objectMapper.readValue(json, Map.class);
 
         sw.stop();
-        long milliseconds = sw.getLastTaskTimeMillis();
-
-        String message = new StringBuilder().append("Dictionary created with ")
-                                             .append(dictionary.size())
-                                             .append(" entries in ")
-                                             .append(milliseconds)
-                                             .append("ms")
-                                             .toString();
+        long totalTime = sw.getTotalTimeMillis();
+        String message = new StringBuilder().append("Dictionary created with ").append(dictionary.size()).append(" entries in ").append(totalTime).append("ms").toString();
         logger.info(message);
-
     }
 
     public static Map<String, String> getDictionary() {

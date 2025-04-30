@@ -13,13 +13,11 @@ import java.util.stream.Collectors;
 public class DictionaryService {
 
     public Entry getWord(String word) throws WordNotFoundException {
-
         String definition = DictionaryReference.getDictionary().get(word);
         Entry entry = new Entry(word, definition);
 
-        // validation
         if (definition == null) {
-            throw new WordNotFoundException("Word [" + word + "] not found.");
+            throw new WordNotFoundException("'Word '" + word + "' not found");
         }
 
         return entry;
@@ -56,8 +54,8 @@ public class DictionaryService {
 
                     String word = entry.getKey();
                     boolean duplicateConsecutiveLetters = false;
-                    for(int x = 1; x < word.length(); x++) {
-                        if(word.charAt(x) == word.charAt(x - 1)) {
+                    for (int x = 1; x < word.length(); x++) {
+                        if (word.charAt(x) == word.charAt(x - 1)) {
                             duplicateConsecutiveLetters = true;
                             break;
                         }
