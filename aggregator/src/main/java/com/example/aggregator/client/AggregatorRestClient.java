@@ -1,8 +1,13 @@
 package com.example.aggregator.client;
 
 import com.example.aggregator.model.Entry;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AggregatorRestClient {
@@ -16,5 +21,26 @@ public class AggregatorRestClient {
     public Entry getDefinitionFor(String word) {
         String uri = "http://localhost:9091/getWord/" + word;
         return restTemplate.getForObject(uri, Entry.class);
+    }
+
+    public List<Entry> getWordsStartingWith(String chars) {
+        String uri = "http://localhost:9091/getWordsStartingWith/" + chars;
+        ResponseEntity<Entry[]> response = restTemplate.getForEntity(uri, Entry[].class);
+        Entry[] entryArray = response.getBody();
+        return Arrays.stream(entryArray).collect(Collectors.toList());
+    }
+
+    public List<Entry> getWordsThatContain(String chars) {
+        String uri = "http://localhost:9091/getWordsThatContain/" + chars;
+        ResponseEntity<Entry[]> response = restTemplate.getForEntity(uri, Entry[].class);
+        Entry[] entryArray = response.getBody();
+        return Arrays.stream(entryArray).collect(Collectors.toList());
+    }
+
+    public List<Entry> getWordsThatContainConsecutiveLetters() {
+        String uri = "http://localhost:9091/getWordsThatContainConsecutiveLetters";
+        ResponseEntity<Entry[]> response = restTemplate.getForEntity(uri, Entry[].class);
+        Entry[] entryArray = response.getBody();
+        return Arrays.stream(entryArray).collect(Collectors.toList());
     }
 }

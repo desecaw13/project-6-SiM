@@ -41,4 +41,34 @@ public class AggregatorController {
 
         return entry;
     }
+
+    @GetMapping("getWordsThatContainSuccessiveLettersAndStartsWith/{chars}")
+    public List<Entry> getWordsThatContainSuccessiveLettersAndStartsWith(@PathVariable String chars) {
+        StopWatch sw = new StopWatch();
+
+        sw.start();
+        List<Entry> entries = aggregatorService.getWordsThatContainSuccessiveLettersAndStartsWith(chars);
+        sw.stop();
+
+        long nanoSeconds = sw.getTotalTimeNanos();
+        String message = new StringBuilder().append("Retrieved entries for [").append(chars).append("] in ").append(nanoSeconds / 1000000.0).append("ns").toString();
+        logger.info(message);
+
+        return entries;
+    }
+
+    @GetMapping("getWordsThatContain/{chars}")
+    public List<Entry> getWordsThatContain(@PathVariable String chars) {
+        StopWatch sw = new StopWatch();
+
+        sw.start();
+        List<Entry> entries = aggregatorService.getWordsThatContain(chars);
+        sw.stop();
+
+        long nanoSeconds = sw.getTotalTimeNanos();
+        String message = new StringBuilder().append("Retrieved entries for [").append(chars).append("] in ").append(nanoSeconds / 1000000.0).append("ns").toString();
+        logger.info(message);
+
+        return entries;
+    }
 }
