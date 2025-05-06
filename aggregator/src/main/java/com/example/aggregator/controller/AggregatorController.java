@@ -36,7 +36,7 @@ public class AggregatorController {
         sw.stop();
 
         long nanoSeconds = sw.getTotalTimeNanos();
-        String message = new StringBuilder().append("Retrieved entry for [").append(word).append("] in ").append(nanoSeconds / 1000000.0).append("ns").toString();
+        String message = new StringBuilder().append("Retrieved entry for [").append(word).append("] in ").append(nanoSeconds / 1000000.0).append("ms").toString();
         logger.info(message);
 
         return entry;
@@ -51,7 +51,7 @@ public class AggregatorController {
         sw.stop();
 
         long nanoSeconds = sw.getTotalTimeNanos();
-        String message = new StringBuilder().append("Retrieved entries for [").append(chars).append("] in ").append(nanoSeconds / 1000000.0).append("ns").toString();
+        String message = new StringBuilder().append("Retrieved entries for [").append(chars).append("] in ").append(nanoSeconds / 1000000.0).append("ms").toString();
         logger.info(message);
 
         return entries;
@@ -66,7 +66,22 @@ public class AggregatorController {
         sw.stop();
 
         long nanoSeconds = sw.getTotalTimeNanos();
-        String message = new StringBuilder().append("Retrieved entries for [").append(chars).append("] in ").append(nanoSeconds / 1000000.0).append("ns").toString();
+        String message = new StringBuilder().append("Retrieved entries for [").append(chars).append("] in ").append(nanoSeconds / 1000000.0).append("ms").toString();
+        logger.info(message);
+
+        return entries;
+    }
+
+    @GetMapping("getAllPalindromes")
+    public List<Entry> getAllPalindromes() {
+        StopWatch sw = new StopWatch();
+
+        sw.start();
+        List<Entry> entries = aggregatorService.getAllPalindromes();
+        sw.stop();
+
+        long nanoSeconds = sw.getTotalTimeNanos();
+        String message = new StringBuilder().append("Retrieved entries in ").append(nanoSeconds / 1000000.0).append("ms").toString();
         logger.info(message);
 
         return entries;
